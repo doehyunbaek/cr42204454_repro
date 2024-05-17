@@ -34,10 +34,11 @@ try:
     difference = max(v8_average, jsc_average) / min(v8_average, jsc_average)
     print(f"V8: {v8_average}, JSC: {jsc_average}, Difference: {difference}", file=sys.stderr)
     interesting = difference > 1 + THRESHOLD
-    if interesting:
-        sys.exit(1)
+    if interesting and v8_average > jsc_average:
+        print("V8 is faster than JSC in a interesting way.")
+    elif interesting and jsc_average > v8_average:
+        print("JSC is faster than V8 in a interesting way.")
     else:
-        sys.exit(0)
+        print("Not interesting")
 except IndexError:
     print("Could not find values in the output")
-    sys.exit(0)
