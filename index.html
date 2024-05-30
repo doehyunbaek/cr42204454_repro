@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Bare uarm</title>
+</head>
+<body>
+    <p id="time"></p>
+    <button id="run">Run</button>
+    <script src="run.js" type="module"></script>
+    <script type="module">
+        import { instantiate } from './run.js';
+        let {wasmMemory, instance} = await instantiate('./out/manual_manual.wasm');
+
+        var start = performance.now();
+        instance.exports["_start"]();
+        var end = performance.now();
+        var timeTaken = end - start;
+        document.getElementById('time').innerHTML += "Time taken: " + timeTaken + "ms<br>";
+        document.getElementById('run').addEventListener('click', () => {
+            var start = performance.now();
+            instance.exports["_start"]();
+            var end = performance.now();
+            var timeTaken = end - start;
+            document.getElementById('time').innerHTML += "Time taken: " + timeTaken + "ms<br>";
+        });
+    </script>
+</body>
+</html>

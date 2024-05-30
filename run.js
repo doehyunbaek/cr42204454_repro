@@ -16,18 +16,6 @@ function updateMemoryViews() {
 	Module["HEAPU64"] = HEAPU64 = new BigUint64Array(b)
 }
 
-if ((typeof WScript) != "undefined") {
-  arguments = WScript.Arguments
-}
-
-if ((typeof scriptArgs) == "object") {
-  arguments = scriptArgs
-}
-
-if ((typeof arguments) == "undefined") {
-  arguments = [];
-}
-
 function empty() { }
 function empty_ret0() { return 0 }
 
@@ -125,26 +113,37 @@ var imports = {
   }
 };
 
+let argument;
+
 if (typeof WScript != "undefined") {
-  arguments = WScript.Arguments
+  argument = WScript.Arguments
 }
 
 if (typeof scriptArgs == "object") {
-  arguments = scriptArgs
+  argument = scriptArgs
 }
 
-if (arguments.length > 0) {
-  var buffer = typeof readbuffer == "function" ?
-      (readbuffer(arguments[0])) :
-      (read(arguments[0], 'binary'));
+if ((typeof argument) == "undefined") {
+	argument = [];
+}
 
-  var module = new WebAssembly.Module(buffer);
-  var instance = new WebAssembly.Instance(module, imports);
-
-  var memory = instance.exports["j"];
-  wasmExports = instance.exports;
-  wasmMemory = wasmExports["j"];
-  updateMemoryViews();
+if (argument.length > 0) {
+  var { memory, instance } = instantiate();
 
   instance.exports["_start"]();
+}
+
+export async function instantiate(path) {
+	const response = await fetch(path);
+    const buffer = await response.arrayBuffer();
+
+    // You can now use the buffer
+    var module = new WebAssembly.Module(buffer);
+    var instance = new WebAssembly.Instance(module, imports);
+
+    var memory = instance.exports["j"];
+    let wasmExports = instance.exports;
+    wasmMemory = wasmExports["j"];
+    updateMemoryViews();
+    return { wasmMemory, instance };
 }
