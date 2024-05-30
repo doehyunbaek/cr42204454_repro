@@ -1,6 +1,6 @@
 # Local repro of https://issues.chromium.org/issues/42204454
 
-uarm_web_6e6034d8087923ff330a08064cafec8a1f8474c3 is built from 
+uarm_web.wasm is built from 
 
 https://github.com/cloudpilot-emu/cp-uarm/commit/6e6034d8087923ff330a08064cafec8a1f8474c3 
 
@@ -18,5 +18,5 @@ run.js is a modification of [run.js in wish-you-were-fast repo](https://github.c
 To prepare the test input, run
 
 ```bash
-wasm-merge --rename-export-conflicts --enable-reference-types --enable-multimemory --enable-bulk-memory --enable-threads --debuginfo manual_main.wasm main uarm_web_6e6034d8087923ff330a08064cafec8a1f8474c3.wasm index -o diff.wasm
+wasm-merge --rename-export-conflicts --enable-reference-types --enable-multimemory --enable-bulk-memory --enable-threads --debuginfo manual_main.wasm main uarm_web.wasm index -o diff.wasm
 ```
