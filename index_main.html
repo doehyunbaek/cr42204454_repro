@@ -11,8 +11,12 @@
         import { instantiate } from './run.js';
         let {wasmMemory, instance} = await instantiate('./out/manual_manual.wasm');
 
+        const response = await fetch('./out/main.wasm');
+        const buffer = await response.arrayBuffer();
+        const imports = { index: instance.exports }
+        let main_object = await WebAssembly.instantiate(buffer, imports);
         var start = performance.now();
-        instance.exports["_start"]();
+        main_object.instance.exports["_start"]();
         var end = performance.now();
         var timeTaken = end - start;
         document.getElementById('time').innerHTML += "Time taken: " + timeTaken + "ms<br>";

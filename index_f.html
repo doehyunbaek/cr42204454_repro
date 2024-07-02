@@ -9,7 +9,7 @@
     <script src="run.js" type="module"></script>
     <script type="module">
         import { instantiate } from './run.js';
-        let {wasmMemory, instance} = await instantiate('./out/manual_manual.wasm');
+        let {wasmMemory, instance} = await instantiate('./out/f_manual.wasm');
 
         var start = performance.now();
         instance.exports["_start"]();
