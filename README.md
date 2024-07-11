@@ -20,3 +20,7 @@ To prepare the test input, run
 ```bash
 wasm-merge --rename-export-conflicts --enable-reference-types --enable-multimemory --enable-bulk-memory --enable-threads --debuginfo manual_main.wasm main uarm_web.wasm index -o diff.wasm
 ```
+
+## Getting old Chromium binary
+
+Use https://vikyd.github.io/download-chromium-history-version/#/
